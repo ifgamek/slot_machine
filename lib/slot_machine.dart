@@ -2,18 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:project/slot_row.dart';
-import 'package:project/sounds_service.dart';
 
 class SlotMachine extends StatefulWidget {
   const SlotMachine({super.key});
 
   @override
-  State<SlotMachine> createState() =>
-      _SlotMachineState();
+  State<SlotMachine> createState() => _SlotMachineState();
 }
 
-class _SlotMachineState
-    extends State<SlotMachine> {
+class _SlotMachineState extends State<SlotMachine> {
   final _random = Random();
   final _symbols = [
     'img/assets/cherry.png',
@@ -27,12 +24,6 @@ class _SlotMachineState
   var _slot3 = 'img/assets/seven.png';
   var _message = '';
   var _isSpinning = false;
-
-  @override
-  void initState() {
-    super.initState();
-    SoundsService.playBackground();
-  }
 
   void _reset() {
     setState(() {
@@ -58,13 +49,8 @@ class _SlotMachineState
           ? 100
           : 200;
 
-      await Future.delayed(
-        Duration(milliseconds: delay),
-      );
-      result =
-          _symbols[_random.nextInt(
-            _symbols.length,
-          )];
+      await Future.delayed(Duration(milliseconds: delay));
+      result = _symbols[_random.nextInt(_symbols.length)];
       onTick(result);
     }
     return result;
@@ -79,50 +65,37 @@ class _SlotMachineState
     });
 
     try {
-      await SoundsService.playClick();
-
       final result1 = await _spinReel(
         totalTicks: 10,
-        onTick: (val) =>
-            setState(() => _slot1 = val),
+        onTick: (val) => setState(() => _slot1 = val),
       );
 
       final result2 = await _spinReel(
         totalTicks: 13,
-        onTick: (val) =>
-            setState(() => _slot2 = val),
+        onTick: (val) => setState(() => _slot2 = val),
       );
 
       final result3 = await _spinReel(
         totalTicks: 16,
-        onTick: (val) =>
-            setState(() => _slot3 = val),
+        onTick: (val) => setState(() => _slot3 = val),
       );
 
-      await Future.delayed(
-        Duration(milliseconds: 300),
-      );
+      await Future.delayed(Duration(milliseconds: 300));
 
       String newMessage;
       int coinsChange;
 
-      if (result1 == result2 &&
-          result2 == result3) {
+      if (result1 == result2 && result2 == result3) {
         if (result1 == 'img/assets/seven.png') {
           coinsChange = 10;
-          newMessage =
-              'джекпот! 🎰🎰🎰 +10 coins';
-          await SoundsService.playJackpot();
+          newMessage = 'джекпот! 🎰🎰🎰 +10 coins';
         } else {
           coinsChange = 3;
           newMessage = 'win! 🎉 +3 coins';
-          await SoundsService.playWin();
         }
       } else {
         coinsChange = -1;
-        newMessage =
-            'попробуй еще раз 😔 -1 coin';
-        await SoundsService.playLose();
+        newMessage = 'попробуй еще раз 😔 -1 coin';
       }
 
       setState(() {
@@ -172,19 +145,12 @@ class _SlotMachineState
           child: AnimatedSwitcher(
             duration: Duration(milliseconds: 400),
             child: Text(
-              _isSpinning
-                  ? 'spin! ...'
-                  : _message,
-              key: ValueKey(
-                _isSpinning
-                    ? 'spinning'
-                    : _message,
-              ),
+              _isSpinning ? 'spin! ...' : _message,
+              key: ValueKey(_isSpinning ? 'spinning' : _message),
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
-                fontWeight:
-                    _message.contains('джекпот')
+                fontWeight: _message.contains('джекпот')
                     ? FontWeight.bold
                     : FontWeight.normal,
               ),
@@ -192,15 +158,10 @@ class _SlotMachineState
           ),
         ),
         ElevatedButton(
-          onPressed: _coins > 0 && !_isSpinning
-              ? _spin
-              : null,
+          onPressed: _coins > 0 && !_isSpinning ? _spin : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
-            padding: EdgeInsets.symmetric(
-              horizontal: 48,
-              vertical: 16,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 48, vertical: 16),
           ),
           child: Text(
             _isSpinning ? 'spinning...' : 'spin',
@@ -216,10 +177,7 @@ class _SlotMachineState
           onPressed: _isSpinning ? null : _reset,
           child: Text(
             'начать заново',
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
           ),
         ),
       ],

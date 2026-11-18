@@ -35,8 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-  audioplayers: ^6.8.1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -66,7 +64,7 @@ flutter:
     - img/assets/cherry.png
     - img/assets/lemon.png
     - img/assets/seven.png
-    - sounds/
+
 flutter_launcher_icons:
   android: true
   ios: false
