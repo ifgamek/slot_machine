@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:lab_09/slot_row.dart';
-import 'package:lab_09/sounds_service.dart';
+import 'package:project/slot_row.dart';
+import 'package:project/sounds_service.dart';
 
 class SlotMachine extends StatefulWidget {
   const SlotMachine({super.key});
@@ -27,7 +27,6 @@ class _SlotMachineState
   var _slot3 = 'img/assets/seven.png';
   var _message = '';
   var _isSpinning = false;
-  var _isMuted = false;
 
   @override
   void initState() {
@@ -43,13 +42,6 @@ class _SlotMachineState
       _slot3 = 'img/assets/seven.png';
       _message = '';
       _isSpinning = false;
-    });
-  }
-
-  void _toggleMute() {
-    SoundsService.toggleMute();
-    setState(() {
-      _isMuted = SoundsService.isMuted;
     });
   }
 
@@ -157,25 +149,6 @@ class _SlotMachineState
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: EdgeInsets.only(
-              right: 16,
-              top: 8,
-            ),
-            child: IconButton(
-              onPressed: _toggleMute,
-              icon: Icon(
-                _isMuted
-                    ? Icons.volume_off
-                    : Icons.volume_up,
-                color: Colors.white,
-                size: 28,
-              ),
-            ),
-          ),
-        ),
         Text(
           'coins: $_coins',
           style: TextStyle(

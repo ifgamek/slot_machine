@@ -3,7 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 class SoundsService {
   static AudioPlayer? _backgroundPlayer;
   static bool _backgroundStarted = false;
-  static bool _isMuted = false;
+  static bool _isMuted = true; // звук выключен по умолчанию
 
   static final List<AudioPlayer> _sfxPool = [];
   static int _sfxIndex = 0;
@@ -54,15 +54,6 @@ class SoundsService {
 
   static Future<void> playClick() async {
     await _playSound('click.mp3', volume: 0.6);
-  }
-
-  static Future<void> toggleMute() async {
-    _isMuted = !_isMuted;
-    if (_isMuted) {
-      await _backgroundPlayer?.setVolume(0.0);
-    } else {
-      await _backgroundPlayer?.setVolume(0.4);
-    }
   }
 
   static Future<void> dispose() async {
